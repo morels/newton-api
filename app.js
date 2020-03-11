@@ -1,4 +1,5 @@
 var app        = require('express')();
+var express    = require('express');
 var operations = require('./operations.js');
 var path       = require('path');
 
@@ -9,13 +10,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Send index.html when root route is accessed (<- homophones ftw!)
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
-});
+app.use(express.static(__dirname + '/build'));
 
 // A dynamic API endpoint where we do our busy work
-app.get('/:operation/:data', function(req, res){
+app.get('/api/:operation/:data', function(req, res){
 
   // Get the math function operation based
   // on the operation that we're given
@@ -57,7 +55,10 @@ app.get('/:operation/:data', function(req, res){
   }
 });
 
-// Launch the server!
-app.listen(3000, function(){
-  console.log('We\'re up at 3000!');
+// Send index.html when root route is accessed (<- homophones ftw!)
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/build/index.html'));
 });
+
+// Launch the server!
+app.listen(80);
