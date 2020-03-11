@@ -61,4 +61,6 @@ app.get('/', function(req, res) {
 });
 
 // Launch the server!
-app.listen(80);
+app.listen(process.env.PORT || 5000, function(){
+  console.log('We\'re up at ' + (process.env.PORT || 5000) + '!');
+});
